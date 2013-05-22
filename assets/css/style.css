@@ -63,23 +63,25 @@
     display: none;
 }
 
-#file-upload ul li p{
-    width: 144px;
+#file-upload ul li p {
     overflow: hidden;
-    white-space: nowrap;
-    color: #EEE;
+    white-space: pre-wrap;
+    -ms-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    color: #444;
     font-size: 16px;
-    font-weight: bold;
     position: absolute;
     top: 20px;
     left: 100px;
+    width: 340px;
 }
 
-#file-upload ul li i{
+#file-upload ul li i {
     font-weight: normal;
-    font-style:normal;
-    color:#7f7f7f;
-    display:block;
+    font-style: normal;
+    color: #7f7f7f;
+    display: block;
+    font-size: 14px;
 }
 
 #file-upload ul li canvas{
