@@ -1,4 +1,4 @@
-AngularJS File Drag-n-Drop Upload
+AngularJS Directive File Drag-n-Drop Upload
 =====================
 
 A drag and drop directive for easy file uploading.
