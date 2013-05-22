@@ -3,6 +3,8 @@ AngularJS File Drag-n-Drop Upload
 
 A drag and drop directive for easy file uploading.
 
+![AngularJS File Drag-n-Drop Upload](http://screencloud.net//img/screenshots/bb10add924b908197ef6cc3d4ec67418.png)
+
 partial.html
 
     <div
