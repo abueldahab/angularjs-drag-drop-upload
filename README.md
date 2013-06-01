@@ -49,7 +49,7 @@ controller.php (Laravel Framework)
 
 				throw new Exception('Could not upload file.');
 			} catch (Exception $e) {
-				return Response::error('406');
+				return $e->getMessage();
 			}
 		}
 	}
