@@ -9,6 +9,7 @@ partial.html
 
 	<div
 		drag-drop-upload
+		clear-on-complete='true'
 		action="main.contactImportAction"
 		on-complete="uploadComplete(e, data)"
 		on-error="uploadError(e, data)"
