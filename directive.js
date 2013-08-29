@@ -81,6 +81,9 @@ directives.directive('dragDropUpload', function() {
 				},
 
 				done: function(e, data) {
+					if (attr.clearOnComplete == 'true')
+						data.context.remove();
+
 					scope.$apply(function(s) {
 						scope.onComplete({ e: e, data: data });
 					});
