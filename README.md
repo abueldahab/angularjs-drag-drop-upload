@@ -7,21 +7,27 @@ A drag and drop directive for easy file uploading.
 
 partial.html
 
-    <div
-  		ng-file-upload="/contactgroup/import"
-  		data-complete='uploadComplete()'
-  		data-error="uploadError()"></div>
+	<div
+		drag-drop-upload
+		action="main.contactImportAction"
+		on-complete="uploadComplete(e, data)"
+		on-error="uploadError(e, data)"
+		on-progress="uploadProgress(progress, e, data)"></div>
+
 
 controller.js
 
     controllers.controller('ContactGroupCtrl', function($scope){
-    	$scope.uploadComplete = function() {
-    		alert('s');
-    	}
-    
-    	$scope.uploadError = function() {
-    		alert('e');
-    	}
+	$scope.uploadComplete = function(e, data) {
+	}
+
+	$scope.uploadProgress = function(progress, e, data) {
+		l(progress);
+	}
+
+	$scope.uploadError = function(e, data) {
+	}
+
     });
 
 controller.php (Laravel Framework)
