@@ -17,18 +17,24 @@ partial.html
 
 controller.js
 
-    controllers.controller('ContactGroupCtrl', function($scope){
-	$scope.uploadComplete = function(e, data) {
-	}
-
-	$scope.uploadProgress = function(progress, e, data) {
-		l(progress);
-	}
-
-	$scope.uploadError = function(e, data) {
-	}
-
-    });
+	controllers.controller('MainCtrl', function($scope){
+		$scope.main.contactImportAction = $scope.main.contactImportBase + 0;
+	
+		$scope.$watch('main.contactgroup', function() {
+			var id = $scope.main.contactgroup.id || 0;
+			$scope.main.contactImportAction = $scope.main.contactImportBase + id;
+		}, true);
+		
+		$scope.uploadComplete = function(e, data) {
+		}
+		
+		$scope.uploadProgress = function(progress, e, data) {
+			l(progress);
+		}
+		
+		$scope.uploadError = function(e, data) {
+		}
+	});
 
 controller.php (Laravel Framework)
 
