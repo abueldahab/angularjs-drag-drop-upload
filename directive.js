@@ -1,4 +1,4 @@
-directives.directive('dragDropUpload', function() {
+angular.module("drag-drop-upload", []).directive('dragDropUpload', function() {
 	// Helper function that formats the file sizes
 	function formatFileSize(bytes) {
 		if (typeof bytes !== 'number') {
