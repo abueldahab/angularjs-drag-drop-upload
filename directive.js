@@ -24,7 +24,7 @@ angular.module("drag-drop-upload", []).directive('dragDropUpload', function() {
 			onProgress: '&',
 			onError: '&'
 		},
-		link: ['scope', 'elem', 'attr', 'ctrl', function(scope, elem, attr, ctrl) {
+		link: function(scope, elem, attr, ctrl) {
 			var dragForm = "<form id='file-upload' method='post' action='" + scope.action + "' enctype='multipart/form-data'> \
 				<div id='drop'> \
 					Drop Here<br> \
@@ -101,13 +101,13 @@ angular.module("drag-drop-upload", []).directive('dragDropUpload', function() {
 						data.context.removeClass('working');
 
 					scope.$apply(function(s) {
-						scope.onProgress({ progress: progress, e: e, data: data })
+						scope.onProgress({ progress: progress, e: e, data: data });
 					});
 				},
 
 				fail:function(e, data){
 					scope.$apply(function(s) {
-						scope.onError({ e: e, data: data })
+						scope.onError({ e: e, data: data });
 					});
 
 					data.context.addClass('error');
@@ -124,6 +124,6 @@ angular.module("drag-drop-upload", []).directive('dragDropUpload', function() {
 				e.preventDefault();
 				$('#drop').removeClass('active');
 			});
-		}]
+		}
 	};
 });
