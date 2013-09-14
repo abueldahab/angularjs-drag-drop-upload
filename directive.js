@@ -1,21 +1,14 @@
-angular.module("drag-drop-upload", []).directive('dragDropUpload', function() {
-	// Helper function that formats the file sizes
-	function formatFileSize(bytes) {
-		if (typeof bytes !== 'number') {
-			return '';
-		}
-
-		if (bytes >= 1000000000) {
-			return (bytes / 1000000000).toFixed(2) + ' GB';
-		}
-
-		if (bytes >= 1000000) {
-			return (bytes / 1000000).toFixed(2) + ' MB';
-		}
-
-		return (bytes / 1000).toFixed(2) + ' KB';
-	}
-
+angular.module("drag-drop-upload", [])
+.filter('bytes', function() {
+	return function(bytes, precision) {
+		if (isNaN(parseFloat(bytes)) || !isFinite(bytes)) return '-';
+		if (typeof precision === 'undefined') precision = 1;
+		var units = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'],
+			number = Math.floor(Math.log(bytes) / Math.log(1024));
+		return (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision) +  ' ' + units[number];
+	};
+})
+.directive('dragDropUpload', ['$filter', function($filter) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -57,7 +50,7 @@ angular.module("drag-drop-upload", []).directive('dragDropUpload', function() {
 
 					// Append the file name and file size
 					tpl.find('p').text(data.files[0].name)
-						.append('<i>' + formatFileSize(data.files[0].size) + '</i>');
+						.append('<i>' + $filter("bytes")(data.files[0].size) + '</i>');
 
 					// Add the HTML to the UL element
 					data.context = tpl.appendTo(ul);
@@ -126,4 +119,4 @@ angular.module("drag-drop-upload", []).directive('dragDropUpload', function() {
 			});
 		}
 	};
-});
+}]);
