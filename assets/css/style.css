@@ -2,13 +2,13 @@
     The file upload form
 -----------------------------*/
 
-#file-upload {
+.file-upload {
     border-radius: 5px;
     margin: 0 auto;
     width: 100%;
 }
 
-#drop {
+.drop {
     background-color: #fff;
     padding: 20px 0;
     border: 2px dashed #ddd;
@@ -20,12 +20,12 @@
     color: #ddd;
 }
 
-#drop:hover, #drop.active {
+.drop:hover, .drop.active {
     border: 2px dashed #08c;
     color: #08c;
 }
 
-#drop a{
+.drop a{
     background-color:#007a96;
     padding:12px 26px;
     color:#fff;
@@ -37,46 +37,63 @@
     line-height:1;
 }
 
-#drop a:hover{
+.drop a:hover{
     background-color:#0986a3;
 }
 
-#drop input{
+.drop input{
     display:none;
 }
 
-#file-upload ul{
+.file-upload ul {
     list-style:none;
     margin: 10px 0 0 0;
     padding: 0;
 }
 
-#file-upload ul li{
+.file-upload ul li {
     background-color: #fff;
-    border-top:1px solid #eee;
-    padding:15px 0 2px;
-    height: 52px;
-    position: relative;
+    border-top: 1px solid #eee;
+    padding: 15px 0 2px;
 }
 
-#file-upload ul li input{
+.file-upload ul li input {
     display: none;
 }
 
-#file-upload ul li p {
+.file-upload ul li .progress {
+    float: left;
+}
+
+.file-upload ul li canvas {
+    float: left;
+}
+
+.file-upload ul li div.clearfix {
+    clear: both !important;
+}
+
+.file-upload ul li .file {
+    width: 75%;
+    float: left;
+    margin-left: 25px;
+    margin-top: 4px;
+}
+
+.file-upload ul li .filename {
     overflow: hidden;
-    white-space: pre-wrap;
+    white-space: nowrap;
     -ms-text-overflow: ellipsis;
     text-overflow: ellipsis;
     color: #444;
     font-size: 16px;
-    position: absolute;
-    top: 20px;
-    left: 100px;
-    width: 340px;
 }
 
-#file-upload ul li i {
+.file-upload ul li.error .filename {
+    color:red;
+}
+
+.file-upload ul li .size {
     font-weight: normal;
     font-style: normal;
     color: #7f7f7f;
@@ -84,27 +101,16 @@
     font-size: 14px;
 }
 
-#file-upload ul li canvas{
-    top: 15px;
-    left: 32px;
-    position: absolute;
-}
-
-#file-upload ul li span{
+.file-upload ul li .cancel {
     width: 15px;
     height: 12px;
     background: url('../img/icons.png') no-repeat;
-    position: absolute;
-    top: 34px;
-    right: 33px;
     cursor:pointer;
+    float: right;
+    margin-top: 15px;
 }
 
-#file-upload ul li.working span{
+.file-upload ul li.working .cancel {
     height: 16px;
     background-position: 0 -12px;
-}
-
-#file-upload ul li.error p{
-    color:red;
 }

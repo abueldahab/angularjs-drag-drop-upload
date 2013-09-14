@@ -18,8 +18,8 @@ angular.module("drag-drop-upload", [])
 			onError: '&'
 		},
 		link: function(scope, elem, attr, ctrl) {
-			var dragForm = "<form id='file-upload' method='post' action='" + scope.action + "' enctype='multipart/form-data'> \
-				<div id='drop'> \
+			var dragForm = "<form class='file-upload' method='post' action='" + scope.action + "' enctype='multipart/form-data'> \
+				<div class='drop'> \
 					Drop Here<br> \
 					<a>Browse</a> \
 					<input type='file' name='file' multiple /> \
@@ -29,28 +29,28 @@ angular.module("drag-drop-upload", [])
 
 			elem.html(dragForm);
 
-			var ul = $('#file-upload ul');
+			var ul = $(elem).find('.file-upload ul');
 
-			$(document).on('click', '#drop a', function(){
+			$(document).on('click', '.drop a', function() {
 				// Simulate a click on the file input button
 				// to show the file browser dialog
 				$(this).parent().find('input').click();
 			});
 
 			// Initialize the jQuery File Upload plugin
-			$('#file-upload').fileupload({
+			$(elem).find('.file-upload').fileupload({
 				// This element will accept file drag/drop uploading
-				dropZone: $('#drop'),
+				dropZone: $(elem).find('.drop'),
 
 				// This function is called when a file is added to the queue;
 				// either via the browse button, or via drag/drop:
 				add: function (e, data) {
 					var tpl = $('<li class="working"><input type="text" value="0" data-width="48" data-height="48"'+
-						' data-fgColor="#0788a5" data-readOnly="1" data-bgColor="#3e4043" /><p></p><span></span></li>');
+						' data-fgColor="#0788a5" data-readOnly="1" data-bgColor="#3e4043" /><div class="file"><p class="filename"></p></div><span class="cancel"></span><div class="clearfix"></div></li>');
 
 					// Append the file name and file size
-					tpl.find('p').text(data.files[0].name)
-						.append('<i>' + $filter("bytes")(data.files[0].size) + '</i>');
+					tpl.find('p.filename').text(data.files[0].name)
+						.append('<i class="size">' + $filter("bytes")(data.files[0].size) + '</i>');
 
 					// Add the HTML to the UL element
 					data.context = tpl.appendTo(ul);
@@ -59,7 +59,7 @@ angular.module("drag-drop-upload", [])
 					tpl.find('input').knob();
 
 					// Listen for clicks on the cancel icon
-					tpl.find('span').click(function(){
+					tpl.find('.cancel').click(function(){
 						if(tpl.hasClass('working')){
 							jqXHR.abort();
 						}
@@ -110,12 +110,12 @@ angular.module("drag-drop-upload", [])
 			// Prevent the default action when a file is dropped on the window
 			$(document).on('dragover', function (e) {
 				e.preventDefault();
-				$('#drop').addClass('active');
+				$(elem).find('.drop').addClass('active');
 			});
 
 			$(document).on('drop dragleave', function (e) {
 				e.preventDefault();
-				$('#drop').removeClass('active');
+				$(elem).find('.drop').removeClass('active');
 			});
 		}
 	};
