@@ -1,32 +1,25 @@
-directives.directive('dragDropUpload', function() {
-	// Helper function that formats the file sizes
-	function formatFileSize(bytes) {
-		if (typeof bytes !== 'number') {
-			return '';
-		}
-
-		if (bytes >= 1000000000) {
-			return (bytes / 1000000000).toFixed(2) + ' GB';
-		}
-
-		if (bytes >= 1000000) {
-			return (bytes / 1000000).toFixed(2) + ' MB';
-		}
-
-		return (bytes / 1000).toFixed(2) + ' KB';
-	}
-
+angular.module("drag-drop-upload", [])
+.filter('bytes', function() {
+	return function(bytes, precision) {
+		if (isNaN(parseFloat(bytes)) || !isFinite(bytes)) return '-';
+		if (typeof precision === 'undefined') precision = 1;
+		var units = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'],
+			number = Math.floor(Math.log(bytes) / Math.log(1024));
+		return (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision) +  ' ' + units[number];
+	};
+})
+.directive('dragDropUpload', ['$filter', function($filter) {
 	return {
 		restrict: 'A',
 		scope: {
 			action: '=',
 			onComplete: '&',
 			onProgress: '&',
-			onError: '&',
+			onError: '&'
 		},
 		link: function(scope, elem, attr, ctrl) {
-			var dragForm = "<form id='file-upload' method='post' action='" + scope.action + "' enctype='multipart/form-data'> \
-				<div id='drop'> \
+			var dragForm = "<form class='file-upload' method='post' action='" + scope.action + "' enctype='multipart/form-data'> \
+				<div class='drop'> \
 					Drop Here<br> \
 					<a>Browse</a> \
 					<input type='file' name='file' multiple /> \
@@ -36,28 +29,28 @@ directives.directive('dragDropUpload', function() {
 
 			elem.html(dragForm);
 
-			var ul = $('#file-upload ul');
+			var ul = $(elem).find('.file-upload ul');
 
-			$(document).on('click', '#drop a', function(){
+			$(document).on('click', '.drop a', function() {
 				// Simulate a click on the file input button
 				// to show the file browser dialog
 				$(this).parent().find('input').click();
 			});
 
 			// Initialize the jQuery File Upload plugin
-			$('#file-upload').fileupload({
+			$(elem).find('.file-upload').fileupload({
 				// This element will accept file drag/drop uploading
-				dropZone: $('#drop'),
+				dropZone: $(elem).find('.drop'),
 
 				// This function is called when a file is added to the queue;
 				// either via the browse button, or via drag/drop:
 				add: function (e, data) {
 					var tpl = $('<li class="working"><input type="text" value="0" data-width="48" data-height="48"'+
-						' data-fgColor="#0788a5" data-readOnly="1" data-bgColor="#3e4043" /><p></p><span></span></li>');
+						' data-fgColor="#0788a5" data-readOnly="1" data-bgColor="#3e4043" /><div class="file"><p class="filename"></p></div><span class="cancel"></span><div class="clearfix"></div></li>');
 
 					// Append the file name and file size
-					tpl.find('p').text(data.files[0].name)
-						.append('<i>' + formatFileSize(data.files[0].size) + '</i>');
+					tpl.find('p.filename').text(data.files[0].name)
+						.append('<i class="size">' + $filter("bytes")(data.files[0].size) + '</i>');
 
 					// Add the HTML to the UL element
 					data.context = tpl.appendTo(ul);
@@ -66,7 +59,7 @@ directives.directive('dragDropUpload', function() {
 					tpl.find('input').knob();
 
 					// Listen for clicks on the cancel icon
-					tpl.find('span').click(function(){
+					tpl.find('.cancel').click(function(){
 						if(tpl.hasClass('working')){
 							jqXHR.abort();
 						}
@@ -101,13 +94,13 @@ directives.directive('dragDropUpload', function() {
 						data.context.removeClass('working');
 
 					scope.$apply(function(s) {
-						scope.onProgress({ progress: progress, e: e, data: data })
+						scope.onProgress({ progress: progress, e: e, data: data });
 					});
 				},
 
 				fail:function(e, data){
 					scope.$apply(function(s) {
-						scope.onError({ e: e, data: data })
+						scope.onError({ e: e, data: data });
 					});
 
 					data.context.addClass('error');
@@ -117,13 +110,13 @@ directives.directive('dragDropUpload', function() {
 			// Prevent the default action when a file is dropped on the window
 			$(document).on('dragover', function (e) {
 				e.preventDefault();
-				$('#drop').addClass('active');
+				$(elem).find('.drop').addClass('active');
 			});
 
 			$(document).on('drop dragleave', function (e) {
 				e.preventDefault();
-				$('#drop').removeClass('active');
+				$(elem).find('.drop').removeClass('active');
 			});
 		}
-	}
-});
+	};
+}]);
