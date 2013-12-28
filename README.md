@@ -90,3 +90,7 @@ ugly.php (From mini-upload-form.zip)
 
 	echo '{"status":"error"}';
 	exit;
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/clouddueling/angularjs-drag-drop-upload/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
